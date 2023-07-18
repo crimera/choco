@@ -22,9 +22,16 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text="The bot is running send me a link and I will try my best")
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    async def callback(link): 
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"{link}")
+
     text: str = update.message.text    
     if prog.running:
-        utils.download(text, "")
+        if (text.find("gofile")):
+            utils.gofile_download(text, callback)
+        else: 
+            utils.download(text)
+    
 
 async def stop(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(update)
